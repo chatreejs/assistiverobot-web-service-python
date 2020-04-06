@@ -1,14 +1,13 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
+from controller.JobController import job_controller
+
 application = Flask(__name__)
 application.config['JSON_SORT_KEYS'] = False
 CORS(application, resources={r"/api/*": {"origins": "*"}})
 
-
-@application.route('/api/v1/test/', methods=['GET'])
-def test():
-    return jsonify(message='success', result=None), 200
+application.register_blueprint(job_controller)
 
 
 @application.errorhandler(400)
