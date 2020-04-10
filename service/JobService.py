@@ -1,5 +1,5 @@
 from model.Goal import Position, Goal, Orientation
-from model.Job import JobResponse
+from model.Job import JobResponse, JobRequest
 from repository.GoalRepository import GoalRepository
 from repository.JobRepository import JobRepository
 
@@ -53,3 +53,7 @@ class JobService:
             return self.build_response(result)
         else:
             return None
+
+    def create_job(self, job_request: JobRequest):
+        row_id = self.job_repository.insert(**job_request.__dict__)
+        return row_id

@@ -1,3 +1,5 @@
+import re
+
 import pymysql
 
 from model.Object import Object
@@ -43,9 +45,22 @@ class BaseRepository:
     def __read(self, **kwargs) -> str:
         """ Generates SQL for a SELECT statement matching the kwargs passed. """
         query = list()
+        sort_column = None
         query.append("SELECT * FROM %s " % self.table)
         if kwargs:
-            query.append("WHERE " + " AND ".join("%s = '%s'" % (k, v) for k, v in kwargs.items()))
+            if 'sort' in kwargs:
+                sort_column = kwargs.pop('sort')
+            condition_string = list()
+            for k, v in kwargs.items():
+                value_split = re.split('[:]', str(v))
+                if len(value_split) == 1:
+                    condition_string.append("%s = '%s'" % (k, v))
+                elif len(value_split) > 1 and value_split[0] == 'not':
+                    condition_string.append("%s <> '%s'" % (k, value_split[1]))
+            where_clause = " AND ".join(condition_string)
+            query.append("WHERE " + where_clause)
+        if sort_column:
+            query.append("ORDER BY %s" % sort_column)
         query.append(";")
         return "".join(query)
 
@@ -103,7 +118,6 @@ class BaseRepository:
         self.connect()
         self.execute(query)
         self.__save()
-        print('saved')
         row_id = self.__get_last_row_id()
         self.close_connection()
         return row_id

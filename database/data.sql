@@ -6,7 +6,7 @@ create table jobs
     job_id       int auto_increment
         primary key,
     status       varchar(45) null,
-    created_date date        null,
+    created_date datetime    null,
     updated_date datetime    null
 );
 
