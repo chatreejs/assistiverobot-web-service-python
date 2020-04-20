@@ -43,14 +43,22 @@ class JobService:
     def get_jobs(self):
         result = self.job_repository.find_all()
         if result is not None:
-            return self.build_response(result)
+            response = self.build_response(result)
+            if isinstance(response, dict):
+                return [response]
+            else:
+                return response
         else:
             return None
 
     def get_jobs_by(self, **kwargs):
         result = self.job_repository.find_by(**kwargs)
         if result is not None:
-            return self.build_response(result)
+            response = self.build_response(result)
+            if isinstance(response, dict):
+                return [response]
+            else:
+                return response
         else:
             return None
 
