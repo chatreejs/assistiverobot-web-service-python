@@ -2,25 +2,22 @@ import re
 
 import pymysql
 
+import database_config as config
 from model.Object import Object
 
 
 class BaseRepository:
     def __init__(self, table: str):
-        self.host = 'localhost'
-        self.user = 'assistiverobotadm'
-        self.password = 'remember'
-        self.db = 'assistive_robot'
         self.con = None
         self.cur = None
         self.table = table
 
     def connect(self):
         """ Connect to MySQL database """
-        self.con = pymysql.connect(host=self.host,
-                                   user=self.user,
-                                   password=self.password,
-                                   db=self.db,
+        self.con = pymysql.connect(host=config.DATABASE_CONFIG['host'],
+                                   user=config.DATABASE_CONFIG['user'],
+                                   password=config.DATABASE_CONFIG['password'],
+                                   db=config.DATABASE_CONFIG['db'],
                                    cursorclass=pymysql.cursors.DictCursor)
         self.cur = self.con.cursor()
 
