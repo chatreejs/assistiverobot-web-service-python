@@ -1,4 +1,4 @@
-from model.Goal import Position, Goal, Quaternion
+from model.Goal import Position, Goal, Orientation
 from model.Job import JobResponse, JobRequest
 from repository.GoalRepository import GoalRepository
 from repository.JobRepository import JobRepository
@@ -23,11 +23,11 @@ class JobService:
                 position = Position(x=goal.position_x,
                                     y=goal.position_y,
                                     z=goal.position_z)
-                quaternion = Quaternion(x=goal.quaternion_x,
-                                        y=goal.quaternion_y,
-                                        z=goal.quaternion_z,
-                                        w=goal.quaternion_w)
-                goal_response_list.append(Goal(position=position.__dict__, quaternion=quaternion.__dict__))
+                orientation = Orientation(x=goal.orientation_x,
+                                          y=goal.orientation_y,
+                                          z=goal.orientation_z,
+                                          w=goal.orientation_w)
+                goal_response_list.append(Goal(position=position.__dict__, orientation=orientation.__dict__))
 
             job_response_list.append(
                 JobResponse(job_id=job.job_id,
