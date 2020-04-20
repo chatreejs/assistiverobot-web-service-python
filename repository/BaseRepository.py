@@ -43,10 +43,13 @@ class BaseRepository:
         """ Generates SQL for a SELECT statement matching the kwargs passed. """
         query = list()
         sort_column = None
+        limit_row = None
         query.append("SELECT * FROM %s " % self.table)
         if kwargs:
             if 'sort' in kwargs:
                 sort_column = kwargs.pop('sort')
+            if 'limit' in kwargs:
+                limit_row = kwargs.pop('limit')
             condition_string = list()
             for k, v in kwargs.items():
                 value_split = re.split('[:]', str(v))
@@ -54,11 +57,15 @@ class BaseRepository:
                     condition_string.append("%s = '%s'" % (k, v))
                 elif len(value_split) > 1 and value_split[0] == 'not':
                     condition_string.append("%s <> '%s'" % (k, value_split[1]))
-            where_clause = " AND ".join(condition_string)
-            query.append("WHERE " + where_clause)
+            if len(condition_string) >= 1:
+                where_clause = " AND ".join(condition_string)
+                query.append("WHERE " + where_clause)
         if sort_column:
             query.append("ORDER BY %s" % sort_column)
+        if limit_row:
+            query.append("LIMIT %d" % int(limit_row))
         query.append(";")
+        print("".join(query))
         return "".join(query)
 
     def __insert(self, **kwargs):
