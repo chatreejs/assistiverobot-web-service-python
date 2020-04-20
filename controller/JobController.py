@@ -95,3 +95,32 @@ def get_job_by_id(job_id):
     if jobs is None:
         abort(404)
     return jsonify(message='success', result=jobs), 200
+
+
+@job_controller.route('/api/v1/jobs/<int:job_id>', methods=['PATCH'])
+def update_job_by_id(job_id):
+    schema = Kanpai.Object({
+        'status': Kanpai.String().required()
+    })
+    validation_result = schema.validate(request.json)
+    if validation_result.get('success', False) is False:
+        abort(400)
+
+    updated_date = datetime.datetime.now()
+
+    if request.json['status'] is not None:
+        status_mapping = dict((item.value, item) for item in JobStatus)
+        if request.json['status'] not in status_mapping:
+            abort(400)
+
+    job = JobRequest(status=request.json['status'],
+                     created_date=None,
+                     updated_date=updated_date)
+
+    try:
+        job_service.update_job(job_id, job)
+        return jsonify(message='success')
+    except ValueError as e:
+        abort(400)
+    except Exception as e:
+        abort(500)

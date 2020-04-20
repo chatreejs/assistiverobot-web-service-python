@@ -57,3 +57,14 @@ class JobService:
     def create_job(self, job_request: JobRequest):
         row_id = self.job_repository.insert(**job_request.__dict__)
         return row_id
+
+    def update_job(self, job_id: int, job_request: JobRequest):
+        job = self.job_repository.find_by(job_id=job_id)
+        if job is not None:
+            request = dict()
+            request['job_id'] = job_id
+            if job_request.status is not None:
+                request['status'] = job_request.status
+            if job_request.updated_date is not None:
+                request['updated_date'] = job_request.updated_date
+            self.job_repository.update(**request)
