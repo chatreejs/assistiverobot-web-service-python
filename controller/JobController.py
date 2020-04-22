@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, abort, request
 from kanpai import Kanpai
 
 from model.Object import Object
-from model.Goal import GoalRequest
+from model.Goal import GoalRequest, GoalStatus
 from model.Job import JobStatus, JobRequest
 from service.GoalService import GoalService
 from service.JobService import JobService
@@ -60,8 +60,10 @@ def create_job():
     if validation_result.get('success', False) is False:
         abort(400)
 
-    # Initial status to waiting
+    # Initial status to pending
     status = JobStatus.PENDING.value
+    # Initial goal status to pending
+    goal_status = GoalStatus.PENDING.value
     # Initial created date to now
     created_date = datetime.datetime.now()
 
@@ -82,7 +84,8 @@ def create_job():
                                        orientation_x=goal.orientation.x,
                                        orientation_y=goal.orientation.y,
                                        orientation_z=goal.orientation.z,
-                                       orientation_w=goal.orientation.w)
+                                       orientation_w=goal.orientation.w,
+                                       status=goal_status)
             goal_service.create_goal(goal_request)
         return jsonify(message='success', result=None), 201
     except Exception as e:

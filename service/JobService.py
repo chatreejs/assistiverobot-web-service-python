@@ -27,7 +27,10 @@ class JobService:
                                           y=goal.orientation_y,
                                           z=goal.orientation_z,
                                           w=goal.orientation_w)
-                goal_response_list.append(Goal(position=position.__dict__, orientation=orientation.__dict__))
+                goal_response_list.append(Goal(goal_id=goal.goal_id,
+                                               position=position.__dict__,
+                                               orientation=orientation.__dict__,
+                                               status=goal.status))
 
             job_response_list.append(
                 JobResponse(job_id=job.job_id,

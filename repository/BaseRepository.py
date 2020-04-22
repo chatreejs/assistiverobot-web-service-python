@@ -65,7 +65,6 @@ class BaseRepository:
         if limit_row:
             query.append("LIMIT %d" % int(limit_row))
         query.append(";")
-        print("".join(query))
         return "".join(query)
 
     def __insert(self, **kwargs):
