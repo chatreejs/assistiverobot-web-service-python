@@ -5,6 +5,7 @@ class GoalStatus(Enum):
     PENDING = 'pending'
     ARRIVED = 'arrived'
     SUCCESS = 'success'
+    FAILED = 'failed'
 
 
 class Goal(object):

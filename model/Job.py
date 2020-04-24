@@ -8,6 +8,7 @@ class JobStatus(Enum):
     PENDING = 'pending'
     RUNNING = 'running'
     SUCCESS = 'success'
+    FAILED = 'failed'
 
 
 class JobResponse(object):

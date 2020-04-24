@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 from flask_cors import CORS
 
+from controller.GoalController import goal_controller
 from controller.JobController import job_controller
 
 application = Flask(__name__)
@@ -8,6 +9,7 @@ application.config['JSON_SORT_KEYS'] = False
 CORS(application, resources={r"/api/*": {"origins": "*"}})
 
 application.register_blueprint(job_controller)
+application.register_blueprint(goal_controller)
 
 
 @application.errorhandler(400)
