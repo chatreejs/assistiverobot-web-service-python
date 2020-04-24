@@ -1,7 +1,7 @@
-DROP TABLE IF EXISTS `assistive_robot`.goals;
-DROP TABLE IF EXISTS `assistive_robot`.jobs;
+DROP TABLE IF EXISTS `assistive_robot`.`goals`;
+DROP TABLE IF EXISTS `assistive_robot`.`jobs`;
 
-create table jobs
+create table `assistive_robot`.`jobs`
 (
     job_id       int auto_increment
         primary key,
@@ -10,7 +10,7 @@ create table jobs
     updated_date datetime    null
 );
 
-create table goals
+create table `assistive_robot`.`goals`
 (
 	goal_id int auto_increment
 		primary key,
