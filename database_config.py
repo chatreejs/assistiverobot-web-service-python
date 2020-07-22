@@ -1,6 +1,6 @@
 DATABASE_CONFIG = {
     'host': 'localhost',
     'user': 'assistiverobotadm',
-    'password': 'Remember1',
+    'password': 'T0kt@k',
     'db': 'assistive_robot'
 }
